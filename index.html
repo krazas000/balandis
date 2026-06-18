@@ -1,0 +1,330 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<!-- TODO: change the page title to her label name -->
+<title>balandis — Collection</title>
+<meta name="description" content="Handmade clothing — lookbook and collection." />
+
+<!--
+  ───────────────────────────────────────────────────────────────────
+  STARTER LOOKBOOK  ·  one file, no build step, deploy anywhere free
+  ───────────────────────────────────────────────────────────────────
+  HOW TO USE
+  1. Brand it:   edit the CSS variables in :root below (colours + fonts).
+  2. Add pieces: edit the `pieces` array at the bottom of this file.
+  3. Add photos: drop image files next to this file and point `image`
+                 at them, e.g. image: "photos/coat.jpg".
+  4. Publish:    drag this folder onto Cloudflare Pages / Netlify, or
+                 push to GitHub Pages. Free. Nothing to maintain.
+  Fonts are loaded from Google Fonts — swap the <link> below for hers.
+-->
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;600;700&family=Newsreader:ital,opsz@0,6..72;1,6..72&display=swap" rel="stylesheet" />
+
+<style>
+  :root {
+    /* ── Brand: change these ─────────────────────────────────────── */
+    --bg:        #F6F5F2;   /* page background */
+    --surface:   #FFFFFF;   /* cards / panels */
+    --ink:       #181512;   /* main text */
+    --muted:     #6E6A63;   /* secondary text */
+    --line:      #E4E0D8;   /* hairlines */
+    --accent:    #6C5566;   /* her brand colour — used sparingly */
+    --on-accent: #FFFFFF;
+
+    --font-display: "Schibsted Grotesk", system-ui, -apple-system, sans-serif;
+    --font-body:    "Newsreader", Georgia, "Times New Roman", serif;
+    /* ────────────────────────────────────────────────────────────── */
+
+    --maxw: 1240px;
+    --gap: clamp(14px, 2.4vw, 30px);
+    --pad: clamp(20px, 5vw, 64px);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--font-body);
+    font-size: 17px;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+  }
+  img { display: block; max-width: 100%; }
+  a { color: inherit; }
+
+  .wrap { max-width: var(--maxw); margin: 0 auto; padding-inline: var(--pad); }
+
+  .eyebrow {
+    font-family: var(--font-display);
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin: 0;
+  }
+
+  /* ── Header ──────────────────────────────────────────────────── */
+  header { padding-top: clamp(34px, 7vw, 80px); }
+  .wordmark {
+    font-family: var(--font-display);
+    font-weight: 600;
+    letter-spacing: -0.015em;
+    line-height: 0.98;
+    font-size: clamp(44px, 11vw, 132px);
+    margin: 0.18em 0 0;
+  }
+  .tagline {
+    font-size: clamp(18px, 2.4vw, 23px);
+    color: var(--muted);
+    max-width: 36ch;
+    margin: 0.7em 0 0;
+    font-style: italic;
+  }
+  .rule { height: 1px; background: var(--line); border: 0; margin: clamp(34px,6vw,72px) 0 0; }
+
+  /* ── Gallery ─────────────────────────────────────────────────── */
+  .gallery-head {
+    display: flex; align-items: baseline; justify-content: space-between;
+    gap: 1rem; flex-wrap: wrap;
+    padding-top: clamp(28px, 5vw, 56px);
+    padding-bottom: clamp(20px, 3vw, 34px);
+  }
+  .gallery-head .count { font-family: var(--font-display); font-size: 12px; letter-spacing: 0.16em; color: var(--muted); }
+
+  .grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: calc(var(--gap) * 1.5) var(--gap);
+    padding-bottom: clamp(48px, 9vw, 110px);
+  }
+  @media (min-width: 600px) { .grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (min-width: 980px) { .grid { grid-template-columns: repeat(3, 1fr); } }
+
+  .piece {
+    appearance: none; border: 0; background: none; padding: 0;
+    text-align: left; color: inherit; cursor: pointer; width: 100%;
+    font: inherit;
+  }
+  .piece .frame {
+    position: relative;
+    aspect-ratio: 3 / 4;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    overflow: hidden;
+  }
+  .piece .frame img { width: 100%; height: 100%; object-fit: cover; }
+
+  /* Elegant placeholder shown until a real photo is added */
+  .ph {
+    position: absolute; inset: 0;
+    display: grid; place-content: center; gap: 8px;
+    background:
+      repeating-linear-gradient(135deg, transparent 0 11px, rgba(0,0,0,0.018) 11px 12px),
+      var(--surface);
+    text-align: center; color: var(--muted);
+  }
+  .ph .ph-no { font-family: var(--font-display); font-size: 30px; color: var(--ink); opacity: 0.85; }
+  .ph .ph-label { font-family: var(--font-display); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; }
+
+  .piece .meta { padding-top: 14px; display: flex; gap: 12px; align-items: baseline; }
+  .piece .no { font-family: var(--font-display); font-size: 12px; color: var(--muted); letter-spacing: 0.08em; padding-top: 2px; }
+  .piece .name { font-family: var(--font-display); font-weight: 500; font-size: 17px; letter-spacing: -0.01em; margin: 0; }
+  .piece .detail { color: var(--muted); font-size: 14.5px; margin: 2px 0 0; }
+  .piece .tag {
+    display: inline-block; margin-top: 8px; font-family: var(--font-display);
+    font-size: 11px; letter-spacing: 0.04em; color: var(--accent);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .piece .frame img, .ph { transition: transform .5s ease, opacity .3s ease; }
+    .piece:hover .frame img, .piece:focus-visible .frame img { transform: scale(1.04); }
+    .piece:hover .ph { transform: scale(1.02); }
+  }
+
+  /* ── Footer ──────────────────────────────────────────────────── */
+  footer { border-top: 1px solid var(--line); padding: clamp(40px,7vw,84px) 0 clamp(40px,7vw,80px); }
+  .foot-grid { display: grid; gap: clamp(24px,4vw,48px); grid-template-columns: 1fr; }
+  @media (min-width: 760px) { .foot-grid { grid-template-columns: 1.4fr 1fr; } }
+  .about p { margin: 12px 0 0; max-width: 48ch; color: var(--ink); }
+  .contact a { display: inline-block; text-decoration: none; border-bottom: 1px solid var(--line); padding-bottom: 1px; margin-top: 10px; }
+  .contact a + a { margin-left: 0; }
+  .contact .links { display: flex; flex-direction: column; gap: 4px; margin-top: 10px; }
+  .colophon { font-family: var(--font-display); font-size: 11.5px; letter-spacing: 0.04em; color: var(--muted); margin-top: clamp(32px,5vw,56px); }
+
+  /* ── Lightbox ────────────────────────────────────────────────── */
+  .lb { position: fixed; inset: 0; z-index: 50; display: none; }
+  .lb[open] { display: block; }
+  .lb-backdrop { position: absolute; inset: 0; background: rgba(20,18,15,0.62); backdrop-filter: blur(2px); }
+  .lb-panel {
+    position: relative; max-width: 1080px; margin: 0 auto; height: 100%;
+    display: grid; grid-template-rows: auto 1fr; padding: clamp(14px,3vw,28px);
+  }
+  .lb-close {
+    justify-self: end; appearance: none; background: var(--surface); color: var(--ink);
+    border: 1px solid var(--line); font-family: var(--font-display); font-size: 12px;
+    letter-spacing: 0.1em; text-transform: uppercase; padding: 9px 14px; cursor: pointer; border-radius: 2px;
+  }
+  .lb-body {
+    background: var(--surface); border: 1px solid var(--line);
+    display: grid; grid-template-columns: 1fr; overflow: auto; margin-top: 12px;
+  }
+  @media (min-width: 820px) { .lb-body { grid-template-columns: 1.15fr 1fr; } }
+  .lb-media { background: var(--bg); min-height: 280px; }
+  .lb-media img, .lb-media video { width: 100%; height: 100%; object-fit: cover; max-height: 78vh; }
+  .lb-media .ph { position: static; min-height: 320px; height: 100%; }
+  .lb-info { padding: clamp(22px,3.4vw,40px); }
+  .lb-info .no { font-family: var(--font-display); font-size: 12px; letter-spacing: 0.12em; color: var(--muted); }
+  .lb-info h2 { font-family: var(--font-display); font-weight: 600; letter-spacing: -0.015em; font-size: clamp(26px,4vw,38px); margin: 6px 0 0; }
+  .lb-info .detail { color: var(--accent); font-family: var(--font-display); font-size: 13px; letter-spacing: 0.04em; margin: 10px 0 0; }
+  .lb-info .desc { margin: 18px 0 0; color: var(--ink); }
+
+  :where(a, button):focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+</style>
+</head>
+<body>
+
+<header class="wrap">
+  <!-- TODO: location + how you sell (or delete) -->
+  <p class="eyebrow">· Made to order</p>
+  <!-- TODO: her label name -->
+  <h1 class="wordmark">Gerda's Balandis Collection</h1>
+  <!-- TODO: one line about the work -->
+  <p class="tagline">Hand-sewn clothing, made one piece at a time.</p>
+  <hr class="rule" />
+</header>
+
+<main class="wrap" id="top">
+  <div class="gallery-head">
+    <p class="eyebrow">The Collection</p>
+    <span class="count" id="count"></span>
+  </div>
+  <div class="grid" id="grid" aria-label="Collection"></div>
+</main>
+
+<footer>
+  <div class="wrap foot-grid">
+    <div class="about">
+      <p class="eyebrow">About</p>
+      <!-- TODO: a few sentences in her voice -->
+      <p>Every piece is designed and made by hand, in small numbers or made to order. Natural fabrics, considered cuts, and a fit you can ask to be adjusted.</p>
+    </div>
+    <div class="contact">
+      <p class="eyebrow">Get in touch</p>
+      <div class="links">
+        <!-- TODO: real email + socials -->
+        <a href="mailto:gerdajak7@gmail.com">Email</a>
+        <a href="https://instagram.com/" target="_blank" rel="noopener">Instagram</a>
+      </div>
+    </div>
+  </div>
+  <p class="wrap colophon">© <span id="yr"></span> balandis. Made by hand.</p>
+</footer>
+
+<!-- Lightbox -->
+<div class="lb" id="lb" role="dialog" aria-modal="true" aria-labelledby="lb-name">
+  <div class="lb-backdrop" data-close></div>
+  <div class="lb-panel">
+    <button class="lb-close" data-close>Close ✕</button>
+    <div class="lb-body">
+      <div class="lb-media" id="lb-media"></div>
+      <div class="lb-info">
+        <span class="no" id="lb-no"></span>
+        <h2 id="lb-name"></h2>
+        <p class="detail" id="lb-detail"></p>
+        <p class="desc" id="lb-desc"></p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  /* ───────────────────────────────────────────────────────────────
+     YOUR PIECES — edit this list. Add a new {} for each garment.
+       name   : what it's called
+       detail : fabric / price / "made to order"  (short)
+       desc   : a sentence or two (shown when opened)
+       image  : path to a photo, e.g. "photos/coat-01.jpg"  ("" = placeholder)
+       video  : optional .mp4 path to show instead of the photo
+                (for YouTube/Vimeo, see the note in the README comment)
+     ─────────────────────────────────────────────────────────────── */
+  const pieces = [
+    { name: "Balcony Adventurers",detail: "", desc: "Very fun activity", image: "photos/cat1.jpeg", video: "" },
+    { name: "Box is my Home",     detail: "",       desc: "Top quality housing", image: "photos/cat2.jpeg", video: "" },
+    { name: "This is my Room",    detail: "",  desc: "I fit just fine", image: "photos/cat3.jpeg", video: "" },
+    { name: "I'm Dead",           detail: "",  desc: "I swear I cannot move", image: "photos/cat4.jpeg", video: "" },
+    { name: "Ipad Cats",          detail: "",        desc: "Just a few minutes more", image: "photos/cat5.jpeg", video: "" },
+    { name: "Who dis?",           detail: "", desc: "Hello hello", image: "photos/cat6.jpeg", video: "" },
+  ];
+
+  const pad = n => String(n + 1).padStart(2, "0");
+
+  function placeholder(no, name, big) {
+    return `<div class="ph">
+        <div class="ph-no">${no}</div>
+        <div class="ph-label">${big ? "Add a photo" : name}</div>
+      </div>`;
+  }
+
+  const grid = document.getElementById("grid");
+  grid.innerHTML = pieces.map((p, i) => {
+    const no = pad(i);
+    const media = p.image
+      ? `<img src="${p.image}" alt="${p.name}" loading="lazy" />`
+      : placeholder(no, p.name, false);
+    return `<button class="piece" data-i="${i}">
+        <span class="frame">${media}${p.video ? '<span class="tag" style="position:absolute;left:10px;bottom:10px;background:var(--surface);padding:4px 8px;border:1px solid var(--line)">▶ Video</span>' : ""}</span>
+        <span class="meta">
+          <span class="no">${no}</span>
+          <span>
+            <span class="name">${p.name}</span>
+            <span class="detail">${p.detail}</span>
+          </span>
+        </span>
+      </button>`;
+  }).join("");
+
+  document.getElementById("count").textContent = pad(pieces.length - 1) + " pieces";
+  document.getElementById("yr").textContent = new Date().getFullYear();
+
+  /* Lightbox */
+  const lb = document.getElementById("lb");
+  let lastFocus = null;
+
+  function open(i) {
+    const p = pieces[i], no = pad(i);
+    document.getElementById("lb-no").textContent = "Look " + no;
+    document.getElementById("lb-name").textContent = p.name;
+    document.getElementById("lb-detail").textContent = p.detail;
+    document.getElementById("lb-desc").textContent = p.desc;
+    const m = document.getElementById("lb-media");
+    if (p.video)      m.innerHTML = `<video src="${p.video}" controls playsinline></video>`;
+    else if (p.image) m.innerHTML = `<img src="${p.image}" alt="${p.name}" />`;
+    else              m.innerHTML = placeholder(no, p.name, true);
+    lastFocus = document.activeElement;
+    lb.setAttribute("open", "");
+    document.body.style.overflow = "hidden";
+    lb.querySelector(".lb-close").focus();
+  }
+  function close() {
+    lb.removeAttribute("open");
+    document.body.style.overflow = "";
+    document.getElementById("lb-media").innerHTML = "";
+    if (lastFocus) lastFocus.focus();
+  }
+
+  grid.addEventListener("click", e => {
+    const b = e.target.closest(".piece");
+    if (b) open(+b.dataset.i);
+  });
+  lb.addEventListener("click", e => { if (e.target.hasAttribute("data-close")) close(); });
+  document.addEventListener("keydown", e => { if (e.key === "Escape" && lb.hasAttribute("open")) close(); });
+</script>
+</body>
+</html>
