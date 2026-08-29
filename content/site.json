@@ -1,14 +1,9 @@
 {
-  "title": "balandis — Collection",
-  "description": "Handmade clothing — lookbook and collection.",
-  "eyebrow": "Made to order",
-  "wordmark": "Gerda's Balandis Collection",
-  "tagline": "Hand-sewn clothing, made one piece at a time.",
   "collection_heading": "The Collection",
-  "about": "Every piece is designed and made by hand, in small numbers or made to order. Natural fabrics, considered cuts, and a fit you can ask to be adjusted.",
-  "email": "gerdajak7@gmail.com",
-  "instagram": "https://instagram.com/",
   "colophon": "balandis. Made by hand.",
+  "eyebrow": "Made to order",
+  "about": "Every piece is designed and made by hand, in small numbers or made to order. Natural fabrics, considered cuts, and a fit you can ask to be adjusted.",
+  "tagline": "Hand-sewn clothes, made one piece at a time.",
   "colors": {
     "bg": "#F6F5F2",
     "surface": "#FFFFFF",
@@ -17,5 +12,10 @@
     "line": "#E4E0D8",
     "accent": "#6C5566",
     "on_accent": "#FFFFFF"
-  }
+  },
+  "instagram": "https://instagram.com/",
+  "wordmark": "Gerda's Balandis Collection",
+  "title": "balandis — Collection",
+  "email": "gerdajak7@gmail.com",
+  "description": "Handmade clothing — lookbook and collection."
 }
