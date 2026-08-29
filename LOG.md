@@ -32,9 +32,21 @@ the site on that Worker. Added root `wrangler.jsonc` (static assets) and
 `.assetsignore`. Set `ALLOWED_ORIGINS` to
 `https://balandis.kristupas0razas.workers.dev`.
 
-**Still open:** GitHub OAuth app + the two Worker secrets (founder), redeploy
-of `balandis-oauth` with the new `ALLOWED_ORIGINS`, first deploy of the site
-Worker from the repo root, end-to-end login test.
+**Evening:** founder created the GitHub OAuth app (client id
+`Ov23liLIfoGr79mScyue`), set both secrets, redeployed `balandis-oauth`, and
+deployed the site Worker from the repo root. Checked with curl:
+- `https://balandis.kristupas0razas.workers.dev` serves the new index,
+  `/admin/`, `content/*.json`, photos (all 200); `oauth/`, `CLAUDE.md`,
+  `wrangler.jsonc` are 404 (hidden by `.assetsignore`).
+- `/auth` on the OAuth Worker answers 302 to
+  `github.com/login/oauth/authorize` with the right client id, scope
+  `repo,user`, a state value, and the `/callback` redirect uri.
+One detour: the first `secret put` used the client id as the secret NAME.
+Fixed by deleting it and setting `GITHUB_CLIENT_ID` + `GITHUB_CLIENT_SECRET`.
+
+**Still open:** the browser login test at `/admin/` (needs the founder's
+GitHub session — Claude cannot do it), and whether Workers Builds is
+connected to the repo (if not, `/admin` saves commit but do not deploy).
 
 **Affected:** `index.html`, `content/site.json` (new), `content/pieces.json`
 (new), `admin/index.html` (new), `admin/config.yml` (new), `oauth/worker.js`
