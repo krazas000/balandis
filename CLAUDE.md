@@ -145,11 +145,24 @@ redoing it. Proceed without asking when the request is a real follow-up.
 
 ## Current state — 2026-08-29
 
-- `index.html` — the whole site: CSS variables for brand colours at the top,
-  a `pieces` array with the collection at the bottom, a lightbox.
-- `photos/` — 6 placeholder images (`cat1.jpeg` … `cat6.jpeg`).
-- Not published yet. No GitHub Pages, no hosting.
+**Who edits what:** the founder edits `index.html` and `oauth/`. The founder's
+wife edits `content/*.json` and `photos/` through `/admin`. Do not put text or
+colours back into `index.html`.
 
-**Decided 2026-08-29:** split content out of `index.html` so the founder's wife
-can edit it, and add a Decap CMS admin page (`/admin`) with a form UI. Login
-through GitHub OAuth with a small Cloudflare Worker. Not built yet.
+- `index.html` — layout, CSS and the small script that loads the content.
+- `content/site.json` — text, contact links, 7 brand colours.
+- `content/pieces.json` — the collection list.
+- `photos/` — images. Decap uploads new ones here.
+- `admin/` — Decap CMS 3.15.1 (`index.html`) + `config.yml`.
+- `oauth/` — Cloudflare Worker `balandis-oauth` for the GitHub login.
+  Deploy from that folder: `npx wrangler deploy`. Secrets:
+  `GITHUB_CLIENT_ID`, `GITHUB_CLIENT_SECRET` (`npx wrangler secret put`).
+  `ALLOWED_ORIGINS` in `wrangler.jsonc` must list the site origin.
+
+**Hosting (decided 2026-08-29):** Cloudflare Pages connected to the GitHub
+repo, branch `master`, no build command, output directory `/`. URL
+`balandis.pages.dev` for now; a custom domain later. Every commit — from the
+founder or from `/admin` — deploys in about 1 minute.
+
+**Local test:** `npx serve -l 8765 -n .` then open http://localhost:8765/.
+`fetch` does not work from a `file://` URL, so a server is required.

@@ -1,0 +1,10 @@
+{
+  "pieces": [
+    { "name": "Balcony Adventurers", "detail": "", "desc": "Very fun activity", "image": "photos/cat1.jpeg", "video": "" },
+    { "name": "Box is my Home", "detail": "", "desc": "Top quality housing", "image": "photos/cat2.jpeg", "video": "" },
+    { "name": "This is my Room", "detail": "", "desc": "I fit just fine", "image": "photos/cat3.jpeg", "video": "" },
+    { "name": "I'm Dead", "detail": "", "desc": "I swear I cannot move", "image": "photos/cat4.jpeg", "video": "" },
+    { "name": "Ipad Cats", "detail": "", "desc": "Just a few minutes more", "image": "photos/cat5.jpeg", "video": "" },
+    { "name": "Who dis?", "detail": "", "desc": "Hello hello", "image": "photos/cat6.jpeg", "video": "" }
+  ]
+}

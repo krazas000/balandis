@@ -3,22 +3,14 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<!-- TODO: change the page title to her label name -->
 <title>balandis — Collection</title>
 <meta name="description" content="Handmade clothing — lookbook and collection." />
 
 <!--
-  ───────────────────────────────────────────────────────────────────
-  STARTER LOOKBOOK  ·  one file, no build step, deploy anywhere free
-  ───────────────────────────────────────────────────────────────────
-  HOW TO USE
-  1. Brand it:   edit the CSS variables in :root below (colours + fonts).
-  2. Add pieces: edit the `pieces` array at the bottom of this file.
-  3. Add photos: drop image files next to this file and point `image`
-                 at them, e.g. image: "photos/coat.jpg".
-  4. Publish:    drag this folder onto Cloudflare Pages / Netlify, or
-                 push to GitHub Pages. Free. Nothing to maintain.
-  Fonts are loaded from Google Fonts — swap the <link> below for hers.
+  Layout and code live in this file.
+  Text, colours and the collection live in content/site.json and
+  content/pieces.json. Edit those through /admin (Decap CMS) — not here.
+  The colour values in :root below are only fallbacks; site.json overrides them.
 -->
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -191,18 +183,15 @@
 <body>
 
 <header class="wrap">
-  <!-- TODO: location + how you sell (or delete) -->
-  <p class="eyebrow">· Made to order</p>
-  <!-- TODO: her label name -->
-  <h1 class="wordmark">Gerda's Balandis Collection</h1>
-  <!-- TODO: one line about the work -->
-  <p class="tagline">Hand-sewn clothing, made one piece at a time.</p>
+  <p class="eyebrow" id="eyebrow"></p>
+  <h1 class="wordmark" id="wordmark"></h1>
+  <p class="tagline" id="tagline"></p>
   <hr class="rule" />
 </header>
 
 <main class="wrap" id="top">
   <div class="gallery-head">
-    <p class="eyebrow">The Collection</p>
+    <p class="eyebrow" id="collection-heading"></p>
     <span class="count" id="count"></span>
   </div>
   <div class="grid" id="grid" aria-label="Collection"></div>
@@ -212,19 +201,17 @@
   <div class="wrap foot-grid">
     <div class="about">
       <p class="eyebrow">About</p>
-      <!-- TODO: a few sentences in her voice -->
-      <p>Every piece is designed and made by hand, in small numbers or made to order. Natural fabrics, considered cuts, and a fit you can ask to be adjusted.</p>
+      <p id="about"></p>
     </div>
     <div class="contact">
       <p class="eyebrow">Get in touch</p>
       <div class="links">
-        <!-- TODO: real email + socials -->
-        <a href="mailto:gerdajak7@gmail.com">Email</a>
-        <a href="https://instagram.com/" target="_blank" rel="noopener">Instagram</a>
+        <a id="email-link" href="#">Email</a>
+        <a id="instagram-link" href="#" target="_blank" rel="noopener">Instagram</a>
       </div>
     </div>
   </div>
-  <p class="wrap colophon">© <span id="yr"></span> balandis. Made by hand.</p>
+  <p class="wrap colophon">© <span id="yr"></span> <span id="colophon"></span></p>
 </footer>
 
 <!-- Lightbox -->
@@ -245,52 +232,72 @@
 </div>
 
 <script>
-  /* ───────────────────────────────────────────────────────────────
-     YOUR PIECES — edit this list. Add a new {} for each garment.
-       name   : what it's called
-       detail : fabric / price / "made to order"  (short)
-       desc   : a sentence or two (shown when opened)
-       image  : path to a photo, e.g. "photos/coat-01.jpg"  ("" = placeholder)
-       video  : optional .mp4 path to show instead of the photo
-                (for YouTube/Vimeo, see the note in the README comment)
-     ─────────────────────────────────────────────────────────────── */
-  const pieces = [
-    { name: "Balcony Adventurers",detail: "", desc: "Very fun activity", image: "photos/cat1.jpeg", video: "" },
-    { name: "Box is my Home",     detail: "",       desc: "Top quality housing", image: "photos/cat2.jpeg", video: "" },
-    { name: "This is my Room",    detail: "",  desc: "I fit just fine", image: "photos/cat3.jpeg", video: "" },
-    { name: "I'm Dead",           detail: "",  desc: "I swear I cannot move", image: "photos/cat4.jpeg", video: "" },
-    { name: "Ipad Cats",          detail: "",        desc: "Just a few minutes more", image: "photos/cat5.jpeg", video: "" },
-    { name: "Who dis?",           detail: "", desc: "Hello hello", image: "photos/cat6.jpeg", video: "" },
-  ];
-
+  /* Content comes from content/site.json and content/pieces.json.
+     Edit them through /admin, not here. */
   const pad = n => String(n + 1).padStart(2, "0");
+  const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+  let pieces = [];
+
+  function applySite(site) {
+    const set = (id, text) => { document.getElementById(id).textContent = text ?? ""; };
+    document.title = site.title || document.title;
+    const metaDesc = document.querySelector('meta[name="description"]');
+    if (metaDesc && site.description) metaDesc.setAttribute("content", site.description);
+    set("eyebrow", site.eyebrow);
+    set("wordmark", site.wordmark);
+    set("tagline", site.tagline);
+    set("collection-heading", site.collection_heading);
+    set("about", site.about);
+    set("colophon", site.colophon);
+    document.getElementById("email-link").href = "mailto:" + (site.email || "");
+    document.getElementById("instagram-link").href = site.instagram || "#";
+    const c = site.colors || {};
+    const root = document.documentElement.style;
+    const map = { bg: "--bg", surface: "--surface", ink: "--ink", muted: "--muted", line: "--line", accent: "--accent", on_accent: "--on-accent" };
+    for (const k in map) if (c[k]) root.setProperty(map[k], c[k]);
+  }
+
+  function renderGrid() {
+    grid.innerHTML = pieces.map((p, i) => {
+      const no = pad(i);
+      const media = p.image
+        ? `<img src="${esc(p.image)}" alt="${esc(p.name)}" loading="lazy" />`
+        : placeholder(no, p.name, false);
+      return `<button class="piece" data-i="${i}">
+          <span class="frame">${media}${p.video ? '<span class="tag" style="position:absolute;left:10px;bottom:10px;background:var(--surface);padding:4px 8px;border:1px solid var(--line)">▶ Video</span>' : ""}</span>
+          <span class="meta">
+            <span class="no">${no}</span>
+            <span>
+              <span class="name">${esc(p.name)}</span>
+              <span class="detail">${esc(p.detail)}</span>
+            </span>
+          </span>
+        </button>`;
+    }).join("");
+    document.getElementById("count").textContent = pieces.length ? pad(pieces.length - 1) + " pieces" : "";
+  }
+
+  const bust = "?v=" + Date.now();
+  Promise.all([
+    fetch("content/site.json" + bust).then(r => r.json()),
+    fetch("content/pieces.json" + bust).then(r => r.json()),
+  ]).then(([site, data]) => {
+    applySite(site);
+    pieces = (data && data.pieces) || [];
+    renderGrid();
+  }).catch(err => {
+    console.error("Could not load content:", err);
+    document.getElementById("wordmark").textContent = "balandis";
+  });
 
   function placeholder(no, name, big) {
     return `<div class="ph">
         <div class="ph-no">${no}</div>
-        <div class="ph-label">${big ? "Add a photo" : name}</div>
+        <div class="ph-label">${big ? "Add a photo" : esc(name)}</div>
       </div>`;
   }
 
   const grid = document.getElementById("grid");
-  grid.innerHTML = pieces.map((p, i) => {
-    const no = pad(i);
-    const media = p.image
-      ? `<img src="${p.image}" alt="${p.name}" loading="lazy" />`
-      : placeholder(no, p.name, false);
-    return `<button class="piece" data-i="${i}">
-        <span class="frame">${media}${p.video ? '<span class="tag" style="position:absolute;left:10px;bottom:10px;background:var(--surface);padding:4px 8px;border:1px solid var(--line)">▶ Video</span>' : ""}</span>
-        <span class="meta">
-          <span class="no">${no}</span>
-          <span>
-            <span class="name">${p.name}</span>
-            <span class="detail">${p.detail}</span>
-          </span>
-        </span>
-      </button>`;
-  }).join("");
-
-  document.getElementById("count").textContent = pad(pieces.length - 1) + " pieces";
   document.getElementById("yr").textContent = new Date().getFullYear();
 
   /* Lightbox */
@@ -304,8 +311,8 @@
     document.getElementById("lb-detail").textContent = p.detail;
     document.getElementById("lb-desc").textContent = p.desc;
     const m = document.getElementById("lb-media");
-    if (p.video)      m.innerHTML = `<video src="${p.video}" controls playsinline></video>`;
-    else if (p.image) m.innerHTML = `<img src="${p.image}" alt="${p.name}" />`;
+    if (p.video)      m.innerHTML = `<video src="${esc(p.video)}" controls playsinline></video>`;
+    else if (p.image) m.innerHTML = `<img src="${esc(p.image)}" alt="${esc(p.name)}" />`;
     else              m.innerHTML = placeholder(no, p.name, true);
     lastFocus = document.activeElement;
     lb.setAttribute("open", "");

@@ -1,0 +1,13 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "balandis-oauth",
+  "main": "worker.js",
+  "account_id": "756144ead5bcd909536c5c707eb82df4",
+  "compatibility_date": "2026-08-29",
+  "vars": {
+    // Site origins allowed to receive the GitHub token. Comma-separated.
+    "ALLOWED_ORIGINS": "https://balandis.pages.dev"
+  }
+  // Secrets, set with `npx wrangler secret put <NAME>` inside this folder:
+  //   GITHUB_CLIENT_ID, GITHUB_CLIENT_SECRET
+}

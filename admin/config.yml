@@ -1,0 +1,70 @@
+# Decap CMS configuration. Docs: https://decapcms.org/docs/configuration-options/
+
+backend:
+  name: github
+  repo: krazas000/balandis
+  branch: master
+  # The Cloudflare Worker in /oauth that does the GitHub login.
+  base_url: https://balandis-oauth.WORKERS_SUBDOMAIN.workers.dev
+  auth_endpoint: auth
+  commit_messages:
+    create: "Add {{slug}} (via admin)"
+    update: "Update {{slug}} (via admin)"
+    delete: "Delete {{slug}} (via admin)"
+    uploadMedia: "Upload {{path}} (via admin)"
+    deleteMedia: "Delete {{path}} (via admin)"
+
+# Uploaded photos go here.
+media_folder: "photos"
+public_folder: "photos"
+
+collections:
+  - name: site
+    label: "Site"
+    description: "Text, contact details and colours."
+    files:
+      - name: site
+        label: "Site settings"
+        file: content/site.json
+        fields:
+          - { name: title, label: "Browser tab title", widget: string }
+          - { name: description, label: "Search-engine description", widget: string, required: false }
+          - { name: eyebrow, label: "Small line above the name", widget: string, required: false }
+          - { name: wordmark, label: "Brand name (big heading)", widget: string }
+          - { name: tagline, label: "Tagline", widget: string, required: false }
+          - { name: collection_heading, label: "Collection heading", widget: string, default: "The Collection" }
+          - { name: about, label: "About text", widget: text }
+          - { name: email, label: "Email", widget: string }
+          - { name: instagram, label: "Instagram link", widget: string, required: false }
+          - { name: colophon, label: "Footer line (after the year)", widget: string, required: false }
+          - name: colors
+            label: "Colours"
+            widget: object
+            fields:
+              - { name: bg, label: "Page background", widget: color, allowInput: true }
+              - { name: surface, label: "Cards and panels", widget: color, allowInput: true }
+              - { name: ink, label: "Main text", widget: color, allowInput: true }
+              - { name: muted, label: "Secondary text", widget: color, allowInput: true }
+              - { name: line, label: "Thin lines and borders", widget: color, allowInput: true }
+              - { name: accent, label: "Brand accent", widget: color, allowInput: true }
+              - { name: on_accent, label: "Text on accent", widget: color, allowInput: true }
+
+  - name: collection
+    label: "Collection"
+    description: "The pieces shown in the gallery. Drag to reorder."
+    files:
+      - name: pieces
+        label: "Pieces"
+        file: content/pieces.json
+        fields:
+          - name: pieces
+            label: "Pieces"
+            label_singular: "Piece"
+            widget: list
+            summary: "{{fields.name}}"
+            fields:
+              - { name: name, label: "Name", widget: string }
+              - { name: detail, label: "Short detail (fabric, price, made to order)", widget: string, required: false }
+              - { name: desc, label: "Description", widget: text, required: false }
+              - { name: image, label: "Photo", widget: image, required: false }
+              - { name: video, label: "Video (.mp4) — optional", widget: file, required: false }
