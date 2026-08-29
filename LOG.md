@@ -44,9 +44,14 @@ deployed the site Worker from the repo root. Checked with curl:
 One detour: the first `secret put` used the client id as the secret NAME.
 Fixed by deleting it and setting `GITHUB_CLIENT_ID` + `GITHUB_CLIENT_SECRET`.
 
-**Still open:** the browser login test at `/admin/` (needs the founder's
-GitHub session — Claude cannot do it), and whether Workers Builds is
-connected to the repo (if not, `/admin` saves commit but do not deploy).
+**End-to-end test passed (founder, browser):** login at `/admin/` with
+GitHub, changed the tagline, published. Result: commit `0177768 Update site
+(via admin)` on GitHub, and the live `content/site.json` shows the new
+tagline. So Workers Builds IS connected: admin saves deploy on their own.
+
+**Open for later:** add the founder's wife as a collaborator on the repo when
+she has a GitHub account; custom domain (then update `ALLOWED_ORIGINS` and
+the GitHub OAuth app URLs).
 
 **Affected:** `index.html`, `content/site.json` (new), `content/pieces.json`
 (new), `admin/index.html` (new), `admin/config.yml` (new), `oauth/worker.js`
