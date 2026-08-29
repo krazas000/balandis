@@ -1,0 +1,13 @@
+{
+  // The site itself: a Worker that only serves static files from this folder.
+  // Deploy from the repo root: `npx wrangler deploy`
+  // Files listed in .assetsignore are not uploaded.
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "balandis",
+  "account_id": "756144ead5bcd909536c5c707eb82df4",
+  "compatibility_date": "2026-08-29",
+  "assets": {
+    "directory": "./",
+    "not_found_handling": "404-page"
+  }
+}

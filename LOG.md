@@ -23,11 +23,18 @@ load at 1200×1600, lightbox opens and closes, 0 console errors. A fake
 `site.json` with a new wordmark and `bg: #112233` changed the rendered
 heading and the body background — the JSON really drives the page.
 
-**Not done (blocked):** the Worker deploy. The permission classifier blocked
-both `wrangler deploy` and the Cloudflare MCP deploy tool. The founder runs
-it. `admin/config.yml` still has the placeholder `WORKERS_SUBDOMAIN` in
-`base_url`; replace it after the deploy. Cloudflare Pages project and GitHub
-OAuth app are founder steps in the dashboard.
+**Later the same day:** the founder deployed `balandis-oauth`
+(`https://balandis-oauth.kristupas0razas.workers.dev`, checked with curl:
+root and `/auth` answer as coded). Put that URL in `admin/config.yml`.
+No Pages project was created; the dashboard showed only the old `balandis`
+Worker from 2026-06-16, which served the old single-file site. Decision: host
+the site on that Worker. Added root `wrangler.jsonc` (static assets) and
+`.assetsignore`. Set `ALLOWED_ORIGINS` to
+`https://balandis.kristupas0razas.workers.dev`.
+
+**Still open:** GitHub OAuth app + the two Worker secrets (founder), redeploy
+of `balandis-oauth` with the new `ALLOWED_ORIGINS`, first deploy of the site
+Worker from the repo root, end-to-end login test.
 
 **Affected:** `index.html`, `content/site.json` (new), `content/pieces.json`
 (new), `admin/index.html` (new), `admin/config.yml` (new), `oauth/worker.js`

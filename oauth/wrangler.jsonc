@@ -6,7 +6,7 @@
   "compatibility_date": "2026-08-29",
   "vars": {
     // Site origins allowed to receive the GitHub token. Comma-separated.
-    "ALLOWED_ORIGINS": "https://balandis.pages.dev"
+    "ALLOWED_ORIGINS": "https://balandis.kristupas0razas.workers.dev"
   }
   // Secrets, set with `npx wrangler secret put <NAME>` inside this folder:
   //   GITHUB_CLIENT_ID, GITHUB_CLIENT_SECRET

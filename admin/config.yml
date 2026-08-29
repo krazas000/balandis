@@ -5,7 +5,7 @@ backend:
   repo: krazas000/balandis
   branch: master
   # The Cloudflare Worker in /oauth that does the GitHub login.
-  base_url: https://balandis-oauth.WORKERS_SUBDOMAIN.workers.dev
+  base_url: https://balandis-oauth.kristupas0razas.workers.dev
   auth_endpoint: auth
   commit_messages:
     create: "Add {{slug}} (via admin)"

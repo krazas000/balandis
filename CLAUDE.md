@@ -159,10 +159,13 @@ colours back into `index.html`.
   `GITHUB_CLIENT_ID`, `GITHUB_CLIENT_SECRET` (`npx wrangler secret put`).
   `ALLOWED_ORIGINS` in `wrangler.jsonc` must list the site origin.
 
-**Hosting (decided 2026-08-29):** Cloudflare Pages connected to the GitHub
-repo, branch `master`, no build command, output directory `/`. URL
-`balandis.pages.dev` for now; a custom domain later. Every commit — from the
-founder or from `/admin` — deploys in about 1 minute.
+**Hosting (decided 2026-08-29):** the Cloudflare Worker `balandis` (static
+assets only, config in root `wrangler.jsonc`, exclusions in `.assetsignore`).
+URL `https://balandis.kristupas0razas.workers.dev` for now; a custom domain
+later. Deploy from the repo root: `npx wrangler deploy`. If Workers Builds is
+connected to the GitHub repo, every commit — from the founder or from `/admin`
+— deploys on its own in about 1 minute. When the URL changes, update
+`ALLOWED_ORIGINS` in `oauth/wrangler.jsonc` and the GitHub OAuth app.
 
 **Local test:** `npx serve -l 8765 -n .` then open http://localhost:8765/.
 `fetch` does not work from a `file://` URL, so a server is required.
